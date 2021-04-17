@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+  <h:form>
+    <div class="card">
+      <p:panel header="Store List">
+        <p:dataTable var="store" value="#{storeBean.stores}" allowUnsorting="true" sortMode="single">
+          <p:column headerText="Store Id" filterable="false" field="id" >
+            <h:outputText value="#{store.id}"/>
+          </p:column>
+
+          <p:column headerText="Store Name" filterable="false" field="name" >
+            <h:outputText value="#{store.name}"/>
+          </p:column>
+
+          <p:column headerText="Store Location" filterable="false" field="location" >
+            <h:outputText value="#{store.location}"/>
+          </p:column>
+        </p:dataTable>
+      </p:panel>
+    </div>
+  </h:form>
+
+  <div class="card">
+    <h:form>
+      <p:panel header="Add Store">
+        <h:panelGrid columns="3" cellpadding="5" styleClass="p-mb-3">
+          <p:outputLabel for="nameAdd" style="margin-right: 1em">Store name: </p:outputLabel>
+          <p:inputText id="nameAdd" type="text" value="#{storeBean.name}" required="true"/>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="locationAdd" style="margin-right: 1em">Store Location: </p:outputLabel>
+          <p:inputText id="locationAdd" type="text" value="#{storeBean.location}" required="true"/>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="inventoryIdsAdd" style="margin-right: 1em">Inventories: </p:outputLabel>
+          <p:selectManyCheckbox id="inventoryIdsAdd"  value="#{storeBean.addInventoryIds}">
+            <f:selectItems value="#{storeBean.unSelectedInventories}" var="inventory"
+                           itemLabel="#{inventory.name}"
+                           itemValue="#{inventory.id}"/>
+          </p:selectManyCheckbox>
+          <p:message for="@previous"/>
+
+          <p:commandButton styleClass="p-mr-2" type="submit" actionListener="#{storeBean.addStore}"
+                           value="Add Store" ajax="false" validateClient="true"
+                           icon="pi pi-check" iconPos="right"/>
+        </h:panelGrid>
+      </p:panel>
+    </h:form>
+  </div>
+
+  <div class="card">
+    <h:form>
+      <p:panel header="Update Store">
+        <h:panelGrid columns="3" cellpadding="5" styleClass="p-mb-3">
+          <p:outputLabel for="idUpdate" style="margin-right: 1em">Store Name: </p:outputLabel>
+          <p:selectOneMenu id="idUpdate" value="#{storeBean.id}">
+            <p:ajax listener="#{storeBean.onInventoryChange}" update="inventoryIds"/>
+            <f:selectItem itemValue="" itemLabel="--Please Select--"/>
+            <f:selectItems value="#{storeBean.stores}" var="store" itemLabel="#{store.name}" itemValue="#{store.id}"/>
+          </p:selectOneMenu>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="inventoryIds" style="margin-right: 1em">Inventories: </p:outputLabel>
+          <p:selectManyCheckbox id="inventoryIds"  value="#{storeBean.updateInventoryIds}">
+            <f:selectItems value="#{inventoryBean.inventories}" var="inventory"
+                           itemLabel="#{inventory.name}"
+                           itemValue="#{inventory.id}"/>
+          </p:selectManyCheckbox>
+          <p:message for="@previous"/>
+
+          <p:commandButton styleClass="p-mr-2" type="submit" actionListener="#{storeBean.updateStore}"
+                           value="Update Store" ajax="false" validateClient="true"
+                           icon="pi pi-check" iconPos="right"/>
+        </h:panelGrid>
+      </p:panel>
+    </h:form>
+  </div>
+</h:body>
+</html>

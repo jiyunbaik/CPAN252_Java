@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+  <h:form>
+    <div class="card">
+      <p:panel header="Inventory List">
+        <p:dataTable var="inventory" value="#{inventoryBean.inventories}" allowUnsorting="true" sortMode="single">
+          <p:column headerText="Id" filterable="false" field="id" >
+            <h:outputText value="#{inventory.id}"/>
+          </p:column>
+
+          <p:column headerText="Name" filterable="false" field="name" >
+            <h:outputText value="#{inventory.name}"/>
+          </p:column>
+
+          <p:column headerText="Sport" filterable="false" field="sport" >
+            <h:outputText value="#{inventory.sport}"/>
+          </p:column>
+
+          <p:column headerText="Quantity" filterable="false" field="quantity" >
+            <h:outputText value="#{inventory.quantity}"/>
+          </p:column>
+
+          <p:column headerText="Price" filterable="false" field="price" >
+            <h:outputText value="#{inventory.price}"/>
+          </p:column>
+
+          <p:column headerText="Date Updated" filterable="false" field="dateUpdated" >
+            <h:outputText value="#{inventory.dateUpdated}">
+              <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+            </h:outputText>
+          </p:column>
+        </p:dataTable>
+      </p:panel>
+    </div>
+  </h:form>
+
+  <div class="card">
+    <h:form>
+      <p:panel header="Add Inventory">
+        <h:panelGrid columns="3" cellpadding="5" styleClass="p-mb-3">
+          <p:outputLabel for="nameAdd" style="margin-right: 1em">Inventory name: </p:outputLabel>
+          <p:inputText id="nameAdd" type="text" value="#{inventoryBean.name}" required="true"/>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="sportAdd" style="margin-right: 1em">Inventory sport: </p:outputLabel>
+          <p:inputText id="sportAdd" type="text" value="#{inventoryBean.sport}" required="true"/>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="quantityAdd" style="margin-right: 1em">Inventory quantity: </p:outputLabel>
+          <p:spinner id="quantityAdd" min="0" value="#{inventoryBean.quantity}" required="true"/>
+          <p:message for="@previous"/>
+
+          <p:outputLabel for="priceAdd" style="margin-right: 1em">Inventory price: </p:outputLabel>
+          <p:inputNumber id="priceAdd" value="#{inventoryBean.price}" symbol=" $"
+                         symbolPosition="s" decimalSeparator="." thousandSeparator="," />
+          <p:message for="@previous"/>
+
+          <p:commandButton styleClass="p-mr-2" type="submit" actionListener="#{inventoryBean.addInventory}"
+                           value="Add Inventory" ajax="false" validateClient="true"
+                           icon="pi pi-check" iconPos="right"/>
+        </h:panelGrid>
+      </p:panel>
+    </h:form>
+  </div>
+</h:body>
+</html>
